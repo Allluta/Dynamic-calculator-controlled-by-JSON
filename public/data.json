@@ -1,0 +1,38 @@
+{
+    "sections": [
+      {
+        "id": 1,
+        "title": "Section 1",
+        "options": [
+          {
+            "id": 101,
+            "name": "Option 1",
+            "type": "single",
+            "mustSelectRequirement": true,
+            "enableScope": false
+          },
+          {
+            "id": 102,
+            "name": "Option 2",
+            "type": "multi",
+            "mustSelectRequirement": false,
+            "enableScope": true
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Section 2",
+        "options": [
+          {
+            "id": 201,
+            "name": "Option 3",
+            "type": "single",
+            "mustSelectRequirement": true,
+            "enableScope": true
+          }
+        ]
+      }
+    ]
+  }
+  

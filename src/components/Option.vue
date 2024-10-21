@@ -1,22 +1,26 @@
 <template>
-    <div class="option">
-      <h3>Options</h3>
-      <p>Select your options here.</p>
-    </div>
-  </template>
-  
-  <script>
-  export default {
-    name: 'CalculatorOption',
-  };
-  </script>
-  
-  <style scoped>
-  .option {
-    margin: 20px;
-    padding: 20px;
-    background-color: blue;
-    color: white;
+  <div class="option">
+    <h3>{{ option.name }}</h3>
+    <p>Type: {{ option.type }}</p>
+    <p>Must Select: {{ option.mustSelectRequirement }}</p>
+    <p>Enable Scope: {{ option.enableScope }}</p>
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'CalculatorOption',
+  props: {
+    option: Object
   }
-  </style>
-  
+};
+</script>
+
+<style scoped>
+.option {
+  margin: 10px;
+  padding: 10px;
+  background-color: blue;
+  color: white;
+}
+</style>
