@@ -1,5 +1,5 @@
 <template>
-  <div class="option">
+  <div class="option" @click="selectOption">
     <h3>{{ option.name }}</h3>
     <p>Type: {{ option.type }}</p>
     <p>Must Select: {{ option.mustSelectRequirement }}</p>
@@ -12,6 +12,11 @@ export default {
   name: 'CalculatorOption',
   props: {
     option: Object
+  },
+  methods: {
+    selectOption() {
+      this.$emit('option-selected', this.option);
+    }
   }
 };
 </script>
@@ -22,5 +27,9 @@ export default {
   padding: 10px;
   background-color: blue;
   color: white;
+  cursor: pointer;
+}
+.option.selected {
+  background-color: green;
 }
 </style>
