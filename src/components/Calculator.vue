@@ -7,6 +7,13 @@
         @option-selected="updateSelection" 
       />
     </div>
+
+    <!-- Pole na godziny pracy, pojawia się po wyborze opcji z obu sekcji -->
+    <div v-if="selectedOptions.length >= 2" class="working-hours">
+      <label for="hours">Enter working hours:</label>
+      <input type="number" v-model.number="workingHours" id="hours" min="0" />
+    </div>
+
     <CalculatorSummary 
       :summary="summary" 
       @update-final-value="updateFinalValue" 
@@ -34,7 +41,9 @@ export default {
       },
       currentValue: 0,
       endingOperations: null,
-      scopeValues: {}
+      scopeValues: {},
+      workingHours: 0, // Nowa zmienna przechowująca godziny pracy
+      hourlyRate: 50 // Stawka godzinowa
     };
   },
   mounted() {
@@ -47,6 +56,11 @@ export default {
       .catch(error => {
         console.error("Error loading data:", error);
       });
+  },
+  watch: {
+  workingHours() { // Usunięcie parametru newHours
+    this.updateSummary(); // Aktualizuj podsumowanie za każdym razem, gdy liczba godzin się zmienia
+  }
   },
   methods: {
     updateSelection(option) {
@@ -62,11 +76,11 @@ export default {
           if (index === -1) {
             this.selectedOptions.push(option);
           } else {
-            this.selectedOptions.splice(index, 1); 
+            this.selectedOptions.splice(index, 1); // Usuń z listy
           }
         }
-        
-        
+
+        // Zastosuj operacje po zaktualizowaniu wybranych opcji
         this.applyOperationsFromSelectedOptions();
       }
       this.updateSummary();
@@ -78,12 +92,12 @@ export default {
       }
     },
     updateFinalValue({ scopeValues, finalValue }) {
-      this.scopeValues = scopeValues; 
-      this.currentValue = finalValue; 
-      this.updateSummary(); 
+      this.scopeValues = scopeValues; // Zaktualizuj wartości zakresu
+      this.currentValue = finalValue; // Zaktualizuj bieżącą wartość
+      this.updateSummary(); // Aktualizuj podsumowanie
     },
     applyOperationsFromSelectedOptions() {
-      this.currentValue = 0; 
+      this.currentValue = 0; // Reset current value
 
       this.selectedOptions.forEach(option => {
         if (option.operationsIfEnabled) {
@@ -94,8 +108,10 @@ export default {
     applyEndingOperations() {
       let finalValue = this.currentValue;
 
-      if (this.selectedOptions.length > 0 && this.endingOperations) {
+      // Jeśli użytkownik wprowadził godziny pracy, uwzględniamy je w kalkulacji
+      if (this.selectedOptions.length > 0 && this.endingOperations && this.workingHours > 0) {
         finalValue = (finalValue || 0) * this.endingOperations.finalMultiplier + this.endingOperations.finalAdder;
+        finalValue = finalValue * this.workingHours * this.hourlyRate; // Przemnożenie przez godziny pracy i stawkę
       } else {
         finalValue = 0; 
       }
@@ -108,7 +124,7 @@ export default {
     },
     updateSummary() {
       this.applyEndingOperations();
-      console.log("Updated Summary:", this.summary);
+      console.log("Updated Summary:", this.summary); // Log the updated summary
     }
   }
 };
@@ -117,5 +133,9 @@ export default {
 <style scoped>
 .calculator {
   text-align: center;
+}
+
+.working-hours {
+  margin-top: 20px;
 }
 </style>

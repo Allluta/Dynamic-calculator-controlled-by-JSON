@@ -14,7 +14,7 @@
     </div>
 
     <div v-if="summary.finalValue !== null">
-      <h3>Final Value: {{ summary.finalValue.toFixed(2) }}</h3>
+      <h3>Total Cost: {{ summary.finalValue.toFixed(2) }} zł</h3>
     </div>
   </div>
 </template>
