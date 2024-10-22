@@ -37,8 +37,20 @@ export default {
 
 <style scoped>
 .summary {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: lightgray;
+  margin-top: 30px;
+  padding: 15px;
+  background-color: #e9ecef;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
+h3 {
+  color: #007BFF;
+  margin-bottom: 10px;
+}
+
+p, ul {
+  color: #555;
+}
+
 </style>

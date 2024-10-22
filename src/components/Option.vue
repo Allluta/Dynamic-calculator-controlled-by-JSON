@@ -34,19 +34,30 @@ export default {
 
 <style scoped>
 .option {
-  margin: 10px;
-  padding: 10px;
-  background-color: blue;
+  margin: 10px 0;
+  padding: 15px;
+  background-color: #007BFF;
   color: white;
   cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .option.selected {
-  background-color: green;
+  background-color: #28a745;
 }
+
+.option:hover {
+  background-color: #0056b3;
+}
+
 .scope {
   margin-top: 10px;
-  background-color: #fff;
   padding: 10px;
+  background-color: #fff;
   border-radius: 5px;
+  border: 1px solid #ccc;
 }
+
 </style>

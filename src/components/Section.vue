@@ -61,9 +61,18 @@ export default {
 
 <style scoped>
 .section {
-  margin: 20px;
+  margin: 20px 0;
   padding: 20px;
-  background-color: red;
-  color: white;
+  background-color: #f0f0f0;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  color: #333;
 }
+
+h2 {
+  margin-bottom: 10px;
+  font-size: 1.4rem;
+  color: #007BFF;
+}
+
 </style>

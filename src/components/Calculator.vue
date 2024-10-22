@@ -136,10 +136,34 @@ export default {
 
 <style scoped>
 .calculator {
-  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+h1, h2 {
+  color: #333;
 }
 
 .working-hours {
   margin-top: 20px;
 }
+
+.working-hours input {
+  margin-left: 10px;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100px;
+}
+
+input[type="number"]:focus {
+  border-color: #007BFF;
+  outline: none;
+}
+
 </style>
