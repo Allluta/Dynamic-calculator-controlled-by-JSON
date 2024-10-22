@@ -35,18 +35,21 @@ export default {
   },
   methods: {
     handleOptionSelected(option) {
-      
-      if (option.type === 'single') {
+    if (option.type === 'single') {
+      if (this.selectedOptions.includes(option.id)) {
+        this.selectedOptions = []; 
+      } else {
         this.selectedOptions = [option.id]; 
-      } else if (option.type === 'multi') {
-        const index = this.selectedOptions.findIndex(id => id === option.id);
-        if (index === -1) {
-          this.selectedOptions.push(option.id); 
-        } else {
-          this.selectedOptions.splice(index, 1); 
-        }
       }
-      this.$emit('option-selected', option);
+    } else if (option.type === 'multi') {
+      const index = this.selectedOptions.findIndex(id => id === option.id);
+      if (index === -1) {
+        this.selectedOptions.push(option.id); 
+      } else {
+        this.selectedOptions.splice(index, 1); 
+      }
+    }
+    this.$emit('option-selected', option);
     },
     handleScopeUpdated(scope) {
       this.$set(this.scopeData, scope.id, scope.value); 

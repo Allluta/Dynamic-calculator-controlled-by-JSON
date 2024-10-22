@@ -8,7 +8,6 @@
       />
     </div>
 
-    <!-- Pole na godziny pracy, pojawia się po wyborze opcji z obu sekcji -->
     <div v-if="selectedOptions.length >= 2" class="working-hours">
       <label for="hours">Enter working hours:</label>
       <input type="number" v-model.number="workingHours" id="hours" min="0" />
@@ -42,8 +41,8 @@ export default {
       currentValue: 0,
       endingOperations: null,
       scopeValues: {},
-      workingHours: 0, // Nowa zmienna przechowująca godziny pracy
-      hourlyRate: 50 // Stawka godzinowa
+      workingHours: 0, 
+      hourlyRate: 50 
     };
   },
   mounted() {
@@ -58,32 +57,35 @@ export default {
       });
   },
   watch: {
-  workingHours() { // Usunięcie parametru newHours
-    this.updateSummary(); // Aktualizuj podsumowanie za każdym razem, gdy liczba godzin się zmienia
+  workingHours() { 
+    this.updateSummary(); 
   }
   },
   methods: {
-    updateSelection(option) {
-      const section = this.sections.find(sec => sec.options.some(opt => opt.id === option.id));
-      if (section) {
-        if (option.type === 'single') {
+  updateSelection(option) {
+    const section = this.sections.find(sec => sec.options.some(opt => opt.id === option.id));
+    if (section) {
+      if (option.type === 'single') {
+        const isSelected = this.selectedOptions.some(selected => selected.id === option.id);
+        if (isSelected) {
+          this.selectedOptions = this.selectedOptions.filter(selected => selected.id !== option.id);
+        } else {
           this.selectedOptions = this.selectedOptions.filter(selected => {
             return !section.options.some(opt => opt.id === selected.id);
           });
           this.selectedOptions.push(option);
-        } else if (option.type === 'multi') {
-          const index = this.selectedOptions.findIndex(selected => selected.id === option.id);
-          if (index === -1) {
-            this.selectedOptions.push(option);
-          } else {
-            this.selectedOptions.splice(index, 1); // Usuń z listy
-          }
         }
-
-        // Zastosuj operacje po zaktualizowaniu wybranych opcji
-        this.applyOperationsFromSelectedOptions();
+      } else if (option.type === 'multi') {
+        const index = this.selectedOptions.findIndex(selected => selected.id === option.id);
+        if (index === -1) {
+          this.selectedOptions.push(option);
+        } else {
+          this.selectedOptions.splice(index, 1); 
+        }
       }
-      this.updateSummary();
+      this.applyOperationsFromSelectedOptions();
+    }
+    this.updateSummary();
     },
     updateScope(scope) {
       if (scope.value !== undefined) {
@@ -92,12 +94,12 @@ export default {
       }
     },
     updateFinalValue({ scopeValues, finalValue }) {
-      this.scopeValues = scopeValues; // Zaktualizuj wartości zakresu
-      this.currentValue = finalValue; // Zaktualizuj bieżącą wartość
-      this.updateSummary(); // Aktualizuj podsumowanie
+      this.scopeValues = scopeValues; 
+      this.currentValue = finalValue; 
+      this.updateSummary(); 
     },
     applyOperationsFromSelectedOptions() {
-      this.currentValue = 0; // Reset current value
+      this.currentValue = 0; 
 
       this.selectedOptions.forEach(option => {
         if (option.operationsIfEnabled) {
@@ -106,25 +108,27 @@ export default {
       });
     },
     applyEndingOperations() {
-      let finalValue = this.currentValue;
+  let finalValue = this.currentValue;
 
-      // Jeśli użytkownik wprowadził godziny pracy, uwzględniamy je w kalkulacji
-      if (this.selectedOptions.length > 0 && this.endingOperations && this.workingHours > 0) {
-        finalValue = (finalValue || 0) * this.endingOperations.finalMultiplier + this.endingOperations.finalAdder;
-        finalValue = finalValue * this.workingHours * this.hourlyRate; // Przemnożenie przez godziny pracy i stawkę
-      } else {
-        finalValue = 0; 
-      }
+  const section1Selected = this.selectedOptions.some(option => option.id >= 101 && option.id <= 103); 
+  const section2Selected = this.selectedOptions.some(option => option.id >= 201 && option.id <= 203); 
 
-      this.summary = {
-        selectedOptions: this.selectedOptions.map(option => option.name).join(', '),
-        scopeValues: this.scopeValues,
-        finalValue: finalValue 
-      };
-    },
+  if (section1Selected && section2Selected && this.workingHours > 0) {
+    finalValue = (finalValue || 0) * this.endingOperations.finalMultiplier + this.endingOperations.finalAdder;
+    finalValue = finalValue * this.workingHours * this.hourlyRate; 
+  } else {
+    finalValue = 0; 
+  }
+
+  this.summary = {
+    selectedOptions: this.selectedOptions.map(option => option.name).join(', '),
+    scopeValues: this.scopeValues,
+    finalValue: finalValue 
+  };
+},
     updateSummary() {
       this.applyEndingOperations();
-      console.log("Updated Summary:", this.summary); // Log the updated summary
+      console.log("Updated Summary:", this.summary); 
     }
   }
 };
