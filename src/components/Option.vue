@@ -1,9 +1,6 @@
 <template>
   <div class="option" @click="selectOption">
-    <h3>{{ option.name }}</h3>
-    <p>Type: {{ option.type }}</p>
-    <p>Must Select: {{ option.mustSelectRequirement }}</p>
-    <p>Enable Scope: {{ option.enableScope }}</p>
+    <h3>{{ option.name }}</h3> 
 
     <div v-if="option.enableScope && isSelected" class="scope">
       <label for="scopeInput">Scope Value:</label>
