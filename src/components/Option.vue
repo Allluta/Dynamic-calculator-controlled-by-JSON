@@ -4,6 +4,11 @@
     <p>Type: {{ option.type }}</p>
     <p>Must Select: {{ option.mustSelectRequirement }}</p>
     <p>Enable Scope: {{ option.enableScope }}</p>
+
+    <div v-if="option.enableScope && isSelected" class="scope">
+      <label for="scopeInput">Scope Value:</label>
+      <input type="text" v-model="scopeValue" id="scopeInput" @input="updateScope" />
+    </div>
   </div>
 </template>
 
@@ -11,11 +16,20 @@
 export default {
   name: 'CalculatorOption',
   props: {
-    option: Object
+    option: Object,
+    isSelected: Boolean 
+  },
+  data() {
+    return {
+      scopeValue: ''  
+    };
   },
   methods: {
     selectOption() {
       this.$emit('option-selected', this.option);
+    },
+    updateScope() {
+      this.$emit('scope-updated', { id: this.option.id, value: this.scopeValue });
     }
   }
 };
@@ -31,5 +45,11 @@ export default {
 }
 .option.selected {
   background-color: green;
+}
+.scope {
+  margin-top: 10px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
 }
 </style>

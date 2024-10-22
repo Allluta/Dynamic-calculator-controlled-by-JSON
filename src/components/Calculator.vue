@@ -2,7 +2,8 @@
   <div class="calculator">
     <h1>Dynamic Calculator</h1>
     <div v-for="section in sections" :key="section.id">
-      <CalculatorSection :section="section" @option-selected="updateSelection" />
+      <CalculatorSection :section="section" @option-selected="updateSelection" 
+      @scope-updated="updateScope" />
     </div>
     <CalculatorSummary :summary="summary" />
   </div>
@@ -22,6 +23,7 @@ export default {
     return {
       sections: [],
       selectedOptions: [],
+      scopeValues: {}, 
       summary: {}
     };
   },
@@ -46,11 +48,17 @@ export default {
 
       this.updateSummary();
     },
+    updateScope(scope) {
+      this.scopeValues[scope.id] = scope.value;
+      this.updateSummary();
+    },
     updateSummary() {
-      this.summary = {
-        selectedOptions: this.selectedOptions.map(option => option.name).join(', ')
-      };
-    }
+  this.summary = {
+    selectedOptions: this.selectedOptions.length > 0 ? this.selectedOptions.map(option => option.name).join(', ') : '',
+    scopeValues: this.scopeValues ? this.scopeValues : {}
+  };
+}
+
   }
 };
 </script>
